@@ -46,7 +46,27 @@
             cy.wait(2000);
             cy.get('#topcartlink > a > span.cart-label').click();
             cy.get('#shopping-cart-form > div.table-wrapper > table > tbody > tr > td.subtotal > span').contains('6,625.00');
-            // cy.get('#termsofservice').check().should('be.checked');
+
+          })
+
+          it('Find a value in Table', function() {
+
+            cy.visit('https://demo.nopcommerce.com/desktops');
+            cy.get('body > div.master-wrapper-page > div.master-wrapper-content > div > div.center-2 > div > div.page-body > div.products-container > div.products-wrapper > div > div > div:nth-child(2) > div > div.details > div.add-info > div.buttons > button.button-2.product-box-add-to-cart-button').click();
+            cy.wait(2000);
+            cy.get('body > div.master-wrapper-page > div.master-wrapper-content > div > div.center-2 > div > div.page-body > div.products-container > div.products-wrapper > div > div > div:nth-child(3) > div > div.details > div.add-info > div.buttons > button.button-2.product-box-add-to-cart-button').click();
+            cy.wait(2000);
+            cy.scrollTo(0,0);
+            cy.get('#topcartlink > a > span.cart-label').click();
+            cy.get('table[class=cart]>tbody>tr>td:nth-child(3)').each(($element, index, $list) => {
+                var text = $element.text();
+                if(text.includes('Lenovo IdeaCentre 600 All-in-One PC')){
+                    cy.get('table[class=cart]>tbody>tr>td:nth-child(1)').eq(index).then(function($sku){
+                        var sku = $sku.text();
+                        expect(sku).contains('LE_IC_600');
+                    })
+                }
+            })
 
           })
     
